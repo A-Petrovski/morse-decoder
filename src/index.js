@@ -72,7 +72,7 @@ function decode(expr) {
             wordLength = 0;
             wordCount = 0;
         //    if (amount === 5) return word[5];
-            if (word[amount].join('') === '********') result[amount] = ' ';
+            if (word[amount].join('') === '**********') result[amount] = ' ';
             else  result[amount] = MORSE_TABLE[word[amount].join('')];
             amount++;
             word[amount] = [];
@@ -88,16 +88,22 @@ function decode(expr) {
                     word[amount][wordLength]='-';
                     wordLength++;
                     break;
-            
-            
+                case '**':
+                    word[amount][wordLength]='**';
+                    wordLength++;
+                    break;
+                
                 default:
+                    word[amount][wordLength]='**';
+                    wordLength++;
                     break;
             }
             wordCount+= 2;
         }
 
     }
-    return result.join('') + ' ' + expr;
+    result[amount] = MORSE_TABLE[word[amount].join('')];
+    return result.join('');
 }
 
 module.exports = {    
