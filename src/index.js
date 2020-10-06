@@ -39,8 +39,67 @@ const MORSE_TABLE = {
 
 function decode(expr) {
     // write your solution here
+    var wordCount = 0;
+    var word =[[]];
+    var wordLength = 0;
+    var result = [];
+    var amount = 0;
+    for (var i = 1; i < expr.length; i+= 2){
+        if ( wordCount < 9) {
+            switch (String(expr[i-1]+expr[i])) {
+                case '00':
+                    break;
+                case '10':
+                    word[amount][wordLength]='.';
+                    wordLength++;
+                    break;
+                case '11':
+                    word[amount][wordLength]='-';
+                    wordLength++;
+                    break;
+                case '**':
+                    word[amount][wordLength]='**';
+                    wordLength++;
+                    break;
+            
+                default:
+                    word[amount][wordLength]='**';
+                    wordLength++;
+                    break;
+            }
+            wordCount+= 2;
+        } else {
+            wordLength = 0;
+            wordCount = 0;
+        //    if (amount === 5) return word[5];
+            if (word[amount].join('') === '********') result[amount] = ' ';
+            else  result[amount] = MORSE_TABLE[word[amount].join('')];
+            amount++;
+            word[amount] = [];
+
+            switch (String(expr[i-1]+expr[i])) {
+                case '00':
+                    break;
+                case '10':
+                    word[amount][wordLength]='.';
+                    wordLength++;
+                    break;
+                case '11':
+                    word[amount][wordLength]='-';
+                    wordLength++;
+                    break;
+            
+            
+                default:
+                    break;
+            }
+            wordCount+= 2;
+        }
+
+    }
+    return result.join('') + ' ' + expr;
 }
 
-module.exports = {
+module.exports = {    
     decode
 }
